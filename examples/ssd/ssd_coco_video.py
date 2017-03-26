@@ -88,7 +88,7 @@ conf_loss_type = P.MultiBoxLoss.SOFTMAX
 code_type = P.PriorBox.CENTER_SIZE
 lr_mult = 1.
 # Stores LabelMapItem.
-label_map_file = "data/VOC0712/labelmap_voc.prototxt"
+label_map_file = "data/coco/labelmap_coco.prototxt"
 # The resized image size
 resize_width = 300
 resize_height = 300
@@ -155,14 +155,14 @@ det_out_param = {
 # The job name should be same as the name used in examples/ssd/ssd_pascal.py.
 job_name = "SSD_{}".format(resize)
 # The name of the model. Modify it if you want.
-model_name = "VGG_VOC0712_{}".format(job_name)
+model_name = "VGG_coco_{}".format(job_name)
 
 # Directory which stores the model .prototxt file.
-save_dir = "models/VGGNet/VOC0712/{}_video".format(job_name)
+save_dir = "models/VGGNet/coco/{}_video".format(job_name)
 # Directory which stores the snapshot of trained models.
-snapshot_dir = "models/VGGNet/VOC0712/{}".format(job_name)
+snapshot_dir = "models/VGGNet/coco/{}".format(job_name)
 # Directory which stores the job script and log file.
-job_dir = "jobs/VGGNet/VOC0712/{}_video".format(job_name)
+job_dir = "jobs/VGGNet/coco/{}_video".format(job_name)
 
 # model definition files.
 test_net_file = "{}/test.prototxt".format(save_dir)

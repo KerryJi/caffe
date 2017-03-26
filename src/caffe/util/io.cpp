@@ -284,14 +284,20 @@ bool ReadXMLToAnnotatedDatum(const string& labelfile, const int img_height,
       Annotation* anno = NULL;
       bool difficult = false;
       ptree object = v1.second;
+      string name; //jkj
       BOOST_FOREACH(ptree::value_type &v2, object.get_child("")) {
         ptree pt2 = v2.second;
+        
         if (v2.first == "name") {
-          string name = pt2.data();
+          name = pt2.data();
+          std::cout<<"name:"<<name.c_str()<<std::endl;
           if (name_to_label.find(name) == name_to_label.end()) {
-            LOG(FATAL) << "Unknown name: " << name;
+             continue;    //jkj
+            //LOG(FATAL) << "Unknown name: " << name;
           }
           int label = name_to_label.find(name)->second;
+          //LOG(FATAL) << "Unknown name: " << name;
+          
           bool found_group = false;
           for (int g = 0; g < anno_datum->annotation_group_size(); ++g) {
             AnnotationGroup* anno_group =
@@ -316,8 +322,19 @@ bool ReadXMLToAnnotatedDatum(const string& labelfile, const int img_height,
           }
           anno->set_instance_id(instance_id++);
         } else if (v2.first == "difficult") {
+        
+          if (name_to_label.find(name) == name_to_label.end()) {
+             continue;    //jkj
+            //LOG(FATAL) << "Unknown name: " << name;
+          }
           difficult = pt2.data() == "1";
         } else if (v2.first == "bndbox") {
+           
+          if (name_to_label.find(name) == name_to_label.end()) {
+             continue;    //jkj
+            //LOG(FATAL) << "Unknown name: " << name;
+          }
+          //LOG(WARNING)<<"name:"<<name<<std::endl;
           int xmin = pt2.get("xmin", 0);
           int ymin = pt2.get("ymin", 0);
           int xmax = pt2.get("xmax", 0);
@@ -383,16 +400,20 @@ bool ReadJSONToAnnotatedDatum(const string& labelfile, const int img_height,
 
   // Get annotation info.
   int instance_id = 0;
+  string name;  //jkj
   BOOST_FOREACH(ptree::value_type& v1, pt.get_child("annotation")) {
     Annotation* anno = NULL;
     bool iscrowd = false;
     ptree object = v1.second;
     // Get category_id.
-    string name = object.get<string>("category_id");
+    name = object.get<string>("category_id");
+    //LOG(WARNING)<<"name:"<<name<<std::endl;
     if (name_to_label.find(name) == name_to_label.end()) {
-      LOG(FATAL) << "Unknown name: " << name;
+      continue;    //jkj
+      //LOG(FATAL) << "Unknown name: " << name;
     }
     int label = name_to_label.find(name)->second;
+    //LOG(WARNING)<<"label:"<<label<<std::endl;
     bool found_group = false;
     for (int g = 0; g < anno_datum->annotation_group_size(); ++g) {
       AnnotationGroup* anno_group =

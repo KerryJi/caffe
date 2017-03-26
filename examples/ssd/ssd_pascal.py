@@ -263,7 +263,7 @@ pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 label_map_file = "data/VOC0712/labelmap_voc.prototxt"
 
 # MultiBoxLoss parameters.
-num_classes = 21
+num_classes = 3  #jkj
 share_location = True
 background_label_id=0
 train_on_diff_gt = True
@@ -329,13 +329,13 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0,1,2,3"
+gpus = "0" #,1,2,3"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 32
-accum_batch_size = 32
+batch_size = 16
+accum_batch_size = 16
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
@@ -356,8 +356,8 @@ elif normalization_mode == P.Loss.FULL:
   base_lr *= 2000.
 
 # Evaluate on whole test set.
-num_test_image = 4952
-test_batch_size = 8
+num_test_image = 2000
+test_batch_size = 2
 # Ideally test_batch_size should be divisible by num_test_image,
 # otherwise mAP will be slightly off the true value.
 test_iter = int(math.ceil(float(num_test_image) / test_batch_size))
@@ -367,12 +367,12 @@ solver_param = {
     'base_lr': base_lr,
     'weight_decay': 0.0005,
     'lr_policy': "multistep",
-    'stepvalue': [80000, 100000, 120000],
+    'stepvalue': [8000, 10000, 12000,14000],
     'gamma': 0.1,
     'momentum': 0.9,
     'iter_size': iter_size,
-    'max_iter': 120000,
-    'snapshot': 80000,
+    'max_iter': 15000, #jkj
+    'snapshot': 4000, #jkj
     'display': 10,
     'average_loss': 10,
     'type': "SGD",
@@ -382,7 +382,7 @@ solver_param = {
     'snapshot_after_train': True,
     # Test parameters
     'test_iter': [test_iter],
-    'test_interval': 10000,
+    'test_interval': 8880,
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,

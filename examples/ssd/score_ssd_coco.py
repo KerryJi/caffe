@@ -79,7 +79,7 @@ run_soon = True
 # The database file for training data. Created by data/coco/create_data.sh
 train_data = "examples/coco/coco_train_lmdb"
 # The database file for testing data. Created by data/coco/create_data.sh
-test_data = "examples/coco/coco_minival_lmdb"
+test_data = "examples/VOC0712/VOC0712_test_lmdb"
 # Specify the batch sampler.
 resize_width = 300
 resize_height = 300
@@ -269,14 +269,14 @@ if max_iter == 0:
   sys.exit()
 
 # Stores the test image names and sizes. Created by data/coco/create_list.sh
-name_size_file = "data/coco/minival2014_name_size.txt"
+name_size_file = "data/VOC0712/test_name_size.txt"
 # The resume model.
 pretrain_model = "{}_iter_{}.caffemodel".format(snapshot_prefix, max_iter)
 # Stores LabelMapItem.
 label_map_file = "data/coco/labelmap_coco.prototxt"
 
 # MultiBoxLoss parameters.
-num_classes = 81
+num_classes = 3
 share_location = True
 background_label_id=0
 train_on_diff_gt = False
@@ -369,7 +369,7 @@ elif normalization_mode == P.Loss.FULL:
   base_lr *= 2000.
 
 # Evaluate on whole test set.
-num_test_image = 5000
+num_test_image = 2000
 test_batch_size = 8
 test_iter = num_test_image / test_batch_size
 
