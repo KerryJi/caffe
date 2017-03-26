@@ -4,7 +4,8 @@ root_dir=$cur_dir/../..
 cd $root_dir
 
 redo=false
-data_root_dir="$HOME/data/coco"
+#data_root_dir="$HOME/data/coco"
+data_root_dir="/home/jkj/study/machinelearning/coco/coco"
 dataset_name="coco"
 mapfile="$root_dir/data/$dataset_name/labelmap_coco.prototxt"
 anno_type="detection"
@@ -20,7 +21,7 @@ if $redo
 then
   extra_cmd="$extra_cmd --redo"
 fi
-for subset in minival testdev train test
+for subset in val train
 do
   python $root_dir/scripts/create_annoset.py --anno-type=$anno_type --label-type=$label_type --label-map-file=$mapfile --min-dim=$min_dim --max-dim=$max_dim --resize-width=$width --resize-height=$height --check-label $extra_cmd $data_root_dir $root_dir/data/$dataset_name/$subset.txt $data_root_dir/$db/$dataset_name"_"$subset"_"$db examples/$dataset_name 2>&1 | tee $root_dir/data/$dataset_name/$subset.log
 done

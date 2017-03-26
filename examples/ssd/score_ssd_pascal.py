@@ -269,12 +269,12 @@ if max_iter == 0:
 # Stores the test image names and sizes. Created by data/VOC0712/create_list.sh
 name_size_file = "data/VOC0712/test_name_size.txt"
 # The resume model.
-pretrain_model = "{}_iter_{}.caffemodel".format(snapshot_prefix, max_iter)
+pretrain_model = "/home/jkj/caffe/caffe-ssd/models/VGGNet/coco/SSD_300x300/VGG_coco_SSD_300x300_iter_12045.caffemodel" # "{}_iter_{}.caffemodel".format(snapshot_prefix, max_iter)
 # Stores LabelMapItem.
 label_map_file = "data/VOC0712/labelmap_voc.prototxt"
 
-# MultiBoxLoss parameters.
-num_classes = 21
+# MultiBoxLoss parameters. 
+num_classes = 3  #jkj
 share_location = True
 background_label_id=0
 train_on_diff_gt = True
@@ -367,7 +367,7 @@ elif normalization_mode == P.Loss.FULL:
   base_lr *= 2000.
 
 # Evaluate on whole test set.
-num_test_image = 4952
+num_test_image = 2000
 test_batch_size = 8
 # Ideally test_batch_size should be divisible by num_test_image,
 # otherwise mAP will be slightly off the true value.

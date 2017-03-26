@@ -11,7 +11,8 @@ CURDIR = os.path.dirname(os.path.realpath(__file__))
 # If true, re-create all list files.
 redo = True
 # The root directory which holds all information of the dataset.
-data_dir = "{}/data/coco".format(HOMEDIR)
+#data_dir = "{}/data/coco".format(HOMEDIR)
+data_dir= "/home/jkj/study/machinelearning/coco/coco"
 # The directory name which holds the image sets.
 imgset_dir = "ImageSets"
 # The direcotry which contains the images.
@@ -22,14 +23,14 @@ anno_dir = "Annotations"
 anno_ext = "json"
 
 train_list_file = "{}/train.txt".format(CURDIR)
-minival_list_file = "{}/minival.txt".format(CURDIR)
+minival_list_file = "{}/val.txt".format(CURDIR)
 testdev_list_file = "{}/testdev.txt".format(CURDIR)
 test_list_file = "{}/test.txt".format(CURDIR)
 
 # Create training set.
 # We follow Ross Girschick's split.
 if redo or not os.path.exists(train_list_file):
-    datasets = ["train2014", "valminusminival2014"]
+    datasets = ["train2014", "val2014"]
     img_files = []
     anno_files = []
     for dataset in datasets:
@@ -54,7 +55,7 @@ if redo or not os.path.exists(train_list_file):
             f.write("{} {}\n".format(img_files[i], anno_files[i]))
 
 if redo or not os.path.exists(minival_list_file):
-    datasets = ["minival2014"]
+    datasets = ["val2014"]
     subset = "val2014"
     img_files = []
     anno_files = []

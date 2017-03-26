@@ -3,7 +3,8 @@ import os
 import shutil
 import subprocess
 import sys
-
+sys.path.append('/home/jkj/caffe/caffe-ssd/python')
+import caffe
 from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 

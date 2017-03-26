@@ -1,6 +1,6 @@
 #!/bin/bash
 
-root_dir=$HOME/data/VOCdevkit/
+root_dir=/home/jkj/caffe/py-faster-rcnn/VOCdevkit2007
 sub_dir=ImageSets/Main
 bash_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 for dataset in trainval test
@@ -13,6 +13,11 @@ do
   for name in VOC2007 VOC2012
   do
     if [[ $dataset == "test" && $name == "VOC2012" ]]
+    then
+      continue
+    fi
+    
+    if [[ $dataset == "trainval" && $name == "VOC2007" ]]
     then
       continue
     fi

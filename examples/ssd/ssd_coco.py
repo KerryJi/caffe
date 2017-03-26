@@ -79,9 +79,9 @@ resume_training = True
 remove_old_models = False
 
 # The database file for training data. Created by data/coco/create_data.sh
-train_data = "examples/coco/coco_train_lmdb"
+train_data = "examples/lmdb/trainval_lmdb"
 # The database file for testing data. Created by data/coco/create_data.sh
-test_data = "examples/coco/coco_minival_lmdb"
+test_data = "examples/VOC0712/VOC0712_test_lmdb" #"examples/coco/coco_val_lmdb"
 # Specify the batch sampler.
 resize_width = 300
 resize_height = 300
@@ -258,14 +258,14 @@ snapshot_prefix = "{}/{}".format(snapshot_dir, model_name)
 job_file = "{}/{}.sh".format(job_dir, model_name)
 
 # Stores the test image names and sizes. Created by data/coco/create_list.sh
-name_size_file = "data/coco/minival2014_name_size.txt"
+name_size_file = "data/VOC0712/test_name_size.txt"
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
-pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
+pretrain_model = "models/VGGNet/VGG_VOC0712_SSD_300x300_iter_15000.caffemodel"
 # Stores LabelMapItem.
 label_map_file = "data/coco/labelmap_coco.prototxt"
 
 # MultiBoxLoss parameters.
-num_classes = 81
+num_classes = 3
 share_location = True
 background_label_id=0
 train_on_diff_gt = False
@@ -331,12 +331,12 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0,1,2,3"
+gpus = "0" #,1,2,3"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 32
+batch_size = 16
 accum_batch_size = 32
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
@@ -358,8 +358,8 @@ elif normalization_mode == P.Loss.FULL:
   base_lr *= 2000.
 
 # Evaluate on whole test set.
-num_test_image = 5000
-test_batch_size = 8
+num_test_image = 2000
+test_batch_size = 2
 test_iter = num_test_image / test_batch_size
 
 solver_param = {
@@ -367,12 +367,12 @@ solver_param = {
     'base_lr': base_lr,
     'weight_decay': 0.0005,
     'lr_policy': "multistep",
-    'stepvalue': [280000, 360000, 400000],
+    'stepvalue': [8000, 10000, 12000,14000],
     'gamma': 0.1,
     'momentum': 0.9,
     'iter_size': iter_size,
-    'max_iter': 400000,
-    'snapshot': 40000,
+    'max_iter': 16000, #jkj
+    'snapshot': 4000, #jkj
     'display': 10,
     'average_loss': 10,
     'type': "SGD",
@@ -382,7 +382,7 @@ solver_param = {
     'snapshot_after_train': True,
     # Test parameters
     'test_iter': [test_iter],
-    'test_interval': 10000,
+    'test_interval': 2000,
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,
@@ -396,7 +396,7 @@ det_out_param = {
     'nms_param': {'nms_threshold': 0.45, 'top_k': 400},
     'save_output_param': {
         'output_directory': output_result_dir,
-        'output_name_prefix': "detections_minival_ssd300_results",
+        'output_name_prefix': "detections_val_ssd300_results",
         'output_format': "COCO",
         'label_map_file': label_map_file,
         'name_size_file': name_size_file,
